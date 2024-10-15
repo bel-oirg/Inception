@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    container_name: mariadb
+    networks:
+      - inception
+    expose:
+      - 3306
+    volumes:
+      - mariadb:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: lmorphiniya17
+      MYSQL_DATABASE: THEDB
+      MYSQL_USER: solace
+      MYSQL_PASSWORD: blackhorse
+    restart: unless_stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h127.0.0.1", "-uroot", "-p${SQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    build:
+      context: ./requirements/nginx
+    container_name: nginx
+    networks:
+      - inception
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    volumes:
+      - wordpress:/var/www/wordpress
+    environment:
+      MYSQL_ROOT_PASSWORD: lmorphiniya17
+      MYSQL_DATABASE: THEDB
+      MYSQL_USER: solace
+      MYSQL_PASSWORD: blackhorse
+    restart: on-failure
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+    container_name: wordpress
+    networks:
+      - inception
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    expose:
+      - 9000
+    volumes:
+      - wordpress:/var/www/wordpress
+    environment:
+      MYSQL_ROOT_PASSWORD: lmorphiniya17
+      MYSQL_DATABASE: THEDB
+      MYSQL_USER: solace
+      MYSQL_PASSWORD: blackhorse  - wordpress:/var/www/wordpress
+    restart: on-failure 
+  
+
+volumes:
+  wordpress:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/root/data/wordpress'
+
+  mariadb:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/root/data/mariadb'
+
+
+networks:
+  inception:
+    driver: bridge
