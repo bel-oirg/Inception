@@ -16,7 +16,6 @@ services:
       MYSQL_DATABASE: THEDB
       MYSQL_USER: solace
       MYSQL_PASSWORD: blackhorse
-    restart: unless_stopped
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h127.0.0.1", "-uroot", "-p${SQL_ROOT_PASSWORD}"]
       interval: 10s

@@ -1,5 +1,3 @@
-sleep 10
-
 wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
 chmod +x wp-cli.phar
@@ -19,9 +17,18 @@ SQL_DATABASE=THEDB
 
 ping -c 4 mariadb
 
-wp config create --allow-root --dbname=$SQL_DATABASE --dbuser=$SQL_USER \
-	--dbpass=$SQL_PASSWORD --dbhost=mariadb --path='/var/www/wordpress'
+
+cp /wp-config.php /var/www/wordpress/
 
 wp core --allow-root install --url=satori --title=sat --admin_user=thebig --admin_password=thebigger --admin_email=thebiggest@example.com
 
 wp user --allow-root create solana sol@crypted.btc --role=author
+
+
+chown -R www-data:www-data /var/www/wordpress \
+    && chmod -R 755 /var/www/wordpress
+
+mkdir -p /var/php
+
+
+php-fpm7.4 -F

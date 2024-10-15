@@ -1,4 +1,5 @@
-service mariadb start;
+service mariadb start
+service mysql start
 
 SQL_DATABASE='THEDB'
 SQL_USER='solace'

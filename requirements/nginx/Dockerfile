@@ -4,7 +4,7 @@ RUN apt update -y && apt upgrade -y && apt install nginx -y
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-RUN mkdir -p /etc/nginx/ssl /var/run/nginx
+RUN mkdir -p /etc/nginx/ssl /var/php /var/run/nginx
 
 COPY ./ssl/cert.pem /etc/nginx/ssl/cert.pem
 COPY ./ssl/key.pem  /etc/nginx/ssl/key.pem
