@@ -11,11 +11,7 @@ services:
       - 3306
     volumes:
       - mariadb:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: lmorphiniya17
-      MYSQL_DATABASE: THEDB
-      MYSQL_USER: solace
-      MYSQL_PASSWORD: blackhorse
+    env_file: .env
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h127.0.0.1", "-uroot", "-p${SQL_ROOT_PASSWORD}"]
       interval: 10s
@@ -34,11 +30,7 @@ services:
       - wordpress
     volumes:
       - wordpress:/var/www/wordpress
-    environment:
-      MYSQL_ROOT_PASSWORD: lmorphiniya17
-      MYSQL_DATABASE: THEDB
-      MYSQL_USER: solace
-      MYSQL_PASSWORD: blackhorse
+    env_file: .env
     restart: on-failure
 
   wordpress:
@@ -54,11 +46,7 @@ services:
       - 9000
     volumes:
       - wordpress:/var/www/wordpress
-    environment:
-      MYSQL_ROOT_PASSWORD: lmorphiniya17
-      MYSQL_DATABASE: THEDB
-      MYSQL_USER: solace
-      MYSQL_PASSWORD: blackhorse  - wordpress:/var/www/wordpress
+    env_file: .env
     restart: on-failure 
   
 
