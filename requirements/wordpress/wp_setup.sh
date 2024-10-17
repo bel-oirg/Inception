@@ -1,34 +1,19 @@
-wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-
-chmod +x wp-cli.phar
-
-mv wp-cli.phar /usr/bin/wp
-
-cd /var/www/wordpress
-
-DOMAIN_NAME=bel-oirg.42.fr
-
-#MYSQL_SETUP
-SQL_ROOT_PASSWORD=lmorphiniya17
-SQL_USER=solace
-SQL_PASSWORD=blackhorse
-SQL_DATABASE=THEDB
-
-
-ping -c 4 mariadb
-
+sed -i s/NAME123/$SQL_DATABASE/g /wp-config.php
+sed -i s/USER123/$SQL_USER/g /wp-config.php
+sed -i s/PASSWORD123/$SQL_PASSWORD/g /wp-config.php
+sed -i s/HOST123/$DB_HOST/g /wp-config.php
 
 cp /wp-config.php /var/www/wordpress/
 
-wp core --allow-root install --url=satori --title=sat --admin_user=thebig --admin_password=thebigger --admin_email=thebiggest@example.com
+cd /var/www/wordpress/
 
-wp user --allow-root create solana sol@crypted.btc --role=author
+wp core --allow-root install --url=$WP_DOMAIN --title=$WP_TITLE --admin_user=$WP_ADM --admin_password=$WP_ADM_PASS --admin_email=${WP_ADM_MAIL}
 
+wp user --allow-root create ${WP_USER} ${WP_MAIL} --role=${WP_ROLE}
 
 chown -R www-data:www-data /var/www/wordpress \
     && chmod -R 755 /var/www/wordpress
 
 mkdir -p /var/php
-
 
 php-fpm7.4 -F
