@@ -12,7 +12,7 @@ services:
     volumes:
       - mariadb:/var/lib/mysql
     env_file: .env
-    restart: on-failure
+    restart: always
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h127.0.0.1", "-uroot", "-p${SQL_ROOT_PASSWORD}"]
       interval: 10s
@@ -32,7 +32,7 @@ services:
     volumes:
       - wordpress:/var/www/wordpress
     env_file: .env
-    restart: on-failure
+    restart: always
 
   wordpress:
     build:
@@ -48,7 +48,20 @@ services:
     volumes:
       - wordpress:/var/www/wordpress
     env_file: .env
-    restart: on-failure 
+    restart: always 
+
+  ftp:
+    build:
+      context: ./requirements/bonus/ftp
+    container_name: ftp
+    networks:
+      - inception
+    ports:
+      - "21:21"
+      - "30000-30009:30000-30009"
+    volumes:
+      - wordpress:/home/$FTP_USER/ftp/wordpress
+    env_file: .env
 
   redis:
     build:
@@ -58,7 +71,7 @@ services:
       - inception
     expose:
       - 6379
-    restart: on-failure
+    restart: always
     depends_on:
       - wordpress
     healthcheck:
