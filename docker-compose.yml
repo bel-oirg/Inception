@@ -63,6 +63,16 @@ services:
       - wordpress:/home/$FTP_USER/ftp/wordpress
     env_file: .env
 
+  website:
+    build:
+      context: ./requirements/bonus/website
+    container_name: website
+    networks:
+      - inception
+    ports:
+      - "1337:1337"
+    restart: always
+
   cadvisor:
     build:
       context: ./requirements/bonus/cadvisor
