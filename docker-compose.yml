@@ -63,6 +63,20 @@ services:
       - wordpress:/home/$FTP_USER/ftp/wordpress
     env_file: .env
 
+  cadvisor:
+    build:
+      context: ./requirements/bonus/cadvisor
+    container_name: cadvisor
+    networks:
+      - inception
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+    restart: always
+
   adminer:
     build:
       context: ./requirements/bonus/adminer
