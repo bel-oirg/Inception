@@ -60,6 +60,10 @@ define( 'NONCE_SALT',        '0Ip!x(h-XC(2T?4PC+~2UlLQ$ );z g*EY3_`lj3@OiQi=QU_e
 define( 'WP_CACHE_KEY_SALT', 'YsdS#V9?y4WF8@`^@`OnDvfAye:*0_uURJa^EMC% I24if*%TlI1s.O0jwa1PGSp' );
 
 
+define('WP_CACHE', true);
+define('WP_REDIS_HOST', 'redis');
+define('WP_REDIS_PORT', 6379);
+
 /**#@-*/
 
 /**

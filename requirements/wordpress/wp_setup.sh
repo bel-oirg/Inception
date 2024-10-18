@@ -16,4 +16,10 @@ chown -R www-data:www-data /var/www/wordpress \
 
 mkdir -p /var/php
 
+## for redis ##
+wp plugin install redis-cache --activate --allow-root
+wp redis enable --allow-root --path=/var/www/wordpress
+
+
+
 php-fpm7.4 -F

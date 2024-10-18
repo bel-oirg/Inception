@@ -49,7 +49,23 @@ services:
       - wordpress:/var/www/wordpress
     env_file: .env
     restart: on-failure 
-  
+
+  redis:
+    build:
+      context: ./requirements/bonus/redis
+    container_name: redis
+    networks:
+      - inception
+    expose:
+      - 6379
+    restart: on-failure
+    depends_on:
+      - wordpress
+    healthcheck:
+      test: ["CMD", "redis-cli", "PING"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   wordpress:
