@@ -131,7 +131,6 @@ volumes:
       o: 'bind'
       device: '/root/data/mariadb'
 
-
 networks:
   inception:
     driver: bridge

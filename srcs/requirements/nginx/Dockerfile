@@ -6,8 +6,8 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir -p /etc/nginx/ssl /var/php /var/run/nginx
 
-COPY ./ssl/cert.pem /etc/nginx/ssl/cert.pem
-COPY ./ssl/key.pem  /etc/nginx/ssl/key.pem
+COPY ./conf/cert.pem /etc/nginx/ssl/cert.pem
+COPY ./conf/key.pem  /etc/nginx/ssl/key.pem
 
 RUN chmod 755 /var/www/html
 RUN chown -R www-data:www-data /var/www/html
