@@ -63,6 +63,18 @@ services:
       - wordpress:/home/$FTP_USER/ftp/wordpress
     env_file: .env
 
+  adminer:
+    build:
+      context: ./requirements/bonus/adminer
+    container_name: adminer
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+    ports:
+      - "600:80"
+    restart: always
+
   redis:
     build:
       context: ./requirements/bonus/redis
