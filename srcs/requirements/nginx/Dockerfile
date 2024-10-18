@@ -2,7 +2,7 @@ FROM debian:bullseye
 
 RUN apt update -y && apt upgrade -y && apt install nginx -y
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir -p /etc/nginx/ssl /var/php /var/run/nginx
 

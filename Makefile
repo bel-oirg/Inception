@@ -1,13 +1,12 @@
-all : build up
+all :  build up
 
-build :
-	docker-compose build
 
+build:
+	docker-compose -f srcs/docker-compose.yml build
 up :
-	docker-compose up -d
-
+	docker-compose -f srcs/docker-compose.yml up -d
 down :
-	docker-compose down
+	docker-compose -f srcs/docker-compose.yml down
 
 re: fclean all
 
