@@ -122,14 +122,14 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/root/data/wordpress'
+      device: '/home/bel-oirg/data/wordpress'
 
   mariadb:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/root/data/mariadb'
+      device: '/home/bel-oirg/data/mariadb'
 
 networks:
   inception:
