@@ -6,8 +6,7 @@ COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir -p /etc/nginx/ssl /var/php /var/run/nginx
 
-COPY ./conf/cert.pem /etc/nginx/ssl/cert.pem
-COPY ./conf/key.pem  /etc/nginx/ssl/key.pem
+RUN openssl req -x509 -nodes -out /etc/nginx/ssl/cert.crt -keyout /etc/nginx/ssl/key.key -subj "/C=FR/ST=IDF/L=KH/O=42/OU=42/CN=bel-oirg.42.fr/UID=bel-oirg"
 
 RUN chmod 755 /var/www/html
 RUN chown -R www-data:www-data /var/www/html
