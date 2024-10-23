@@ -95,8 +95,6 @@ services:
       - inception
     depends_on:
       - mariadb
-    volumes:
-      - wordpress:/var/www/html
     ports:
       - "600:80"
     restart: always
