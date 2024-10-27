@@ -103,7 +103,7 @@ services:
     depends_on:
       - mariadb
     ports:
-      - "600:80"
+      - "600:600"
     restart: always
 
   redis:

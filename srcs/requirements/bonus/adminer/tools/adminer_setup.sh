@@ -8,4 +8,4 @@ cd /var/www/html
 
 rm -rf index.html
 
-php -S 0.0.0.0:1323
+php -S 0.0.0.0:600 /var/www/html/adminer.php
