@@ -1,0 +1,9 @@
+ about pid1
+ how deamons works
+
+change /root/data
+config the /etc/hosts
+
+.ENV SHOULD BE IGNORED BY GIT.
+
+ ls -l /proc/..

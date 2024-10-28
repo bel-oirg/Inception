@@ -1,0 +1,19 @@
+docker exec -dit NAME sh 
+
+docker build -t A_TAG_NAME .  
+docker images // to check the
+
+docker run -dit --name cont_name IMAGE_NAME sh
+
+docker ps -a
+
+docker images -q //list only the ids of images
+docker container ls -aq // list only ids of containres
+
+docker container rm -f $(docker container ls -aq)
+docker image rm -f $(docker image ls -aq)
+
+ssh -L 3000:127.0.0.1:443 root@34.30.157.20
+
+wp plugin status --allow-root //checking plugins
+

@@ -1,0 +1,140 @@
+--ENTRYPOINT--
+CMD
+
+--> ENTRYPOINT CMD (cmd is like an arg it cannot override ENTRYPOINT)
+
+--CMD--
+ENTRYPOINT
+
+--> ENTRYPOINT (ENTRYPOINT CAN OVERRIDE CMD)
+
+docker is a tools used to package an app and its dependencies into an isolated container.
+
+docker-compose is a tool to define and manage multiple containers, using yaml file docker-compose.yml
+
+---##CONTAINER AND VMs##---
+it is an executable unit of software that packages the app code, deps, libs, env.
+container use far fewer sys resources compared to VMs, big diff on size, boot-time, resource usage
+containers share the host kernel, but PROCESS-LVL ISOLATION 
+unlike the VMs they have FULL-OS ISOLATION
+
+VMs:
+The hypervisor isolates each VM, it simulates hardware resources (CPU, Mem, Disk ..)
+each VM believes it has its own hardware
+you can run diff OSs on the same host
+
+Docker:
+the isolation come from OS kernel mechanism like NAMESPACES and CGROUPS
+NAMESPACES: (limits what you can see)
+	-> provides isolated views of sys resources
+	-> PID namespaces, each container has its own isolated set of pocess IDs
+	-> NETWORK namespaces,each one has its isolated NETWORK INTERFACE
+	-> MOUNT NAMESPACE, each one has its own FILE SYST MOUNTS.
+CGROUPS (Control groups): (it limits how much resources you can use)
+	-> cgroups controls the resources (CPU, Mem, I/O) that each container can use
+
+the docker is weaker, if a vuln is in the host kernel could affect all the containers
+single os (be cause they share the same Kernel)
+
+
+usefull cmds to inspect:
+lsns
+systemd-cgls
+
+-------
+
+docker build . --> creates docker image from dockerfile, this img can be used int diff env
+you can add -t (tag) to give it a name
+
+docker run
+creates a container instance from the image, it runs in an isolated env
+-it (interactive use)
+
+
+
+---##VOLUMES##---
+when you define a volume on docker-compose.yml, docker create a persistent storage location (a dir) on the host, containers in the same file can access and share the data in this volume
+-> no data duplication (no copy ,paste)
+
+volumes:
+  wordpress:
+    driver: local  //stores the volume data on the local host machine (default)
+    driver_opts:   //drive-specific options
+      type: 'none' //you wanna use an existing dir on the host
+      o: 'bind'	   //bind mount, links a dir on the host to a dir inside a container
+      device: '/root/data/wordpress'
+
+note: any changes on the host of that dir will affect immediately the container
+---------------
+
+----##Docker container lifecycle and states:##---
+
+1- created
+2- running
+3- paused
+
+----##Overlay filesystems##----
+
+Overlay filesystem is the more modern and preferred FS used by docker.
+
+when a file is changed from a container, it is copied from the lower layer (RO), into the highest layer (RW)
+and the changes happens only on the top layer (COPY ON WRITE MECHANISM), and the docker interacts with the modified version, 
+without affecting the original file in the lower layers.
+
+docker images
+docker inspect <image_ID>
+/var/lib/docker/overlay2/
+
+this way it saves disk space, download time, deployement time ..
+
+---#Docker Networking#---
+
+-p "8080:8080" this tecknique called port mapping
+
+-BRIDGE NETWORK
+containers on the same bridge network can communicate using there container name as hostnames
+thanks to Docker internal DNS resolver
+the host is isolated from the containers
+
+
+-HOST NETWORK
+the container does not have it's own prv IP, it uses host ip directly
+useful for performance, but we lose network isolation
+
+-NONE NETWORK
+in this mode the container has no network interface, completly isolated from any network.
+useful for fully isolated testing env.
+
+-OVERLAY NETWORK
+used for multi-host communication in Kubernetes, allow containers running on diff
+docker hosts to communicate as if ther were in the same network
+
+-MACVLAN NETWORK
+in this case, the container can have it's own MAC ADDR, the container can interact with external
+networks as it they have it's own network card
+
+
+---##Docker Storage Management##---
+
+-VOLUMES
+volumes are docker managed storage, stored in /var/lib/docker/volumes by def.
+ideal for persistent storage and for sharing data between containers.
+managed by docker (docker volume ls , docker volume prune...)
+docker volume prune -- used to clean the unused volumes
+
+-BIND MOUNTS
+allows you to directly mount a specific dir from the host sys into a container.
+
+
+---##CGROUPS adv##---
+cd /sys/fd/cgroup
+mkdir limit_d
+inside that file 
+
+
+9 - Multi-Stage Builds in Docker
+11 - Securing Docker with TLS and Secrets Management
+12 - Docker Compose vs Dockerfile: When to Use Each
+14 - Linux Kernel Features for Containers (cgroups, namespaces, capabilities)
+16 - Docker Health Checks
+19 - Debugging Docker Containers

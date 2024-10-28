@@ -1,0 +1,31 @@
+MAIN
+	EVENTS
+	HTTP
+		SERVER
+			LOCATION
+		UPSTEAM
+	STREAM
+		SERVER
+		UPSTEAM
+
+
+EVENTS -> number of connections per worker
+
+HTTP -> Addr of pool of back-end srv
+
+SERVER -> DOMAIN, IP addr, Unix Socket
+
+LOCATION -> poit to a path, string matching (/app ->)
+
+UPSTEAM -> app servers, web servs
+
+STREAM -> UDP or TCP
+
+
+nginx can act as a reverse proxy, load balencer, enryption ..
+
+the content type header on nginx is by default text/plain
+but if i wanna include a css file or js or png ... it will always condidered as text/plain
+
+to solve this prob we will "include mime.types;" to inform the client (browser) how to to handle each file 
+

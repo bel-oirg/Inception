@@ -1,0 +1,16 @@
+unshare --mount  //creating new process in a sep --mount
+
+mount --make-rprivate /   //making the rount mount prv, (isolating him from the other namespaces)
+
+mkdir /tmp/empty
+
+mount --bind /tmp/empty /tmp/empty  //preparing for pivot_root , binding the existing dir to itself
+
+pivot_root /tmp/empty    //switching the root FS to /tmp/empty
+
+
+
+
+unshare --pid --fork --mount-proc /bin/bash
+echo $$
+ls &
